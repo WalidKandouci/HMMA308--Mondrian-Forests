@@ -77,10 +77,3 @@ sns.lmplot(x = "predicted", y = "residuals", data = performance)
 ax = sns.residplot(x = "Days", y = "residuals", data = performance, lowess=True)
 ax.set(ylabel='Observed - Prediction')
 plt.show()
-
-likev = resultLMM.profile_re(0, 're', dist_low=0.1, dist_high=0.1)
-
-plt.figure(figsize=(10,8))
-plt.plot(likev[:,0], 2*likev[:,1])
-plt.xlabel("Variance of random slope", size=17)
-plt.ylabel("-2 times profile log likelihood", size=17)
