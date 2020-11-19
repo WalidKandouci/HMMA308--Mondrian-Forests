@@ -1,0 +1,239 @@
+\documentclass[unknownkeysallowed]{beamer}
+\usepackage[french,english]{babel}
+\input{Beamer_js}
+\input{shortcuts_js}
+%\usepackage{./OrganizationFiles/tex/sty/shortcuts_js}
+\usepackage{csquotes}
+\graphicspath{{./images/}}
+
+\addbibresource{Bibliographie.bib}
+\usepackage{enumerate}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+%\usepackage{dsfont}
+%\usepackage{bbold}
+%\usepackage{stmaryrd}
+%\languagepath{French}
+%\usepackage{xcolor}
+%\usepackage{pgf}
+%\usepackage{tikz}
+
+
+
+\usepackage[procnames]{listings}
+% \usepackage{setspace} % need for \setstretch{1}
+\lstset{%
+language   = python,%
+ % basicstyle = \ttfamily\setstretch{1},%
+basicstyle = \ttfamily,%
+columns    = flexible,%
+keywordstyle=\color{javared},
+firstnumber=100,
+frame=shadowbox,
+showstringspaces=false,
+morekeywords={import,from,class,def,for,while,if,is,in,elif,
+else,not,and,or,print,break,continue,return,True,False,None,access,
+as,del,except,exec,finally,global,import,lambda,pass,print,raise,try,assert,!=},
+keywordstyle={\color{javared}\bfseries},
+commentstyle=\color{javagreen}, %vsomb_col white comments
+morecomment=[s][\color{javagreen}]{"""}{"""},
+upquote=true,
+%% style for number
+numbers=none,
+resetmargins=true,
+xleftmargin=10pt,
+linewidth= \linewidth,
+numberstyle=\tiny,
+stepnumber=1,
+numbersep=8pt, %
+frame=shadowbox,
+rulesepcolor=\color{black},
+procnamekeys={def,class},
+procnamestyle=\color{oneblue}\textbf,
+literate={á}{{\'a}}1
+{à}{{\`a }}1
+{ã}{{\~a}}1
+{é}{{\'e}}1
+{ê}{{\^e}}1
+{è}{{\`e}}1
+{í}{{\'i}}1
+{î}{{\^i}}1
+{ó}{{\'o}}1
+{õ}{{\~o}}1
+{ô}{{\^o}}1
+{ú}{{\'u}}1
+{ü}{{\"u}}1
+{ç}{{\c{c}}}1
+}
+
+
+
+
+
+
+
+
+
+
+\begin{document}
+
+
+\begin{frame}[noframenumbering]
+\thispagestyle{empty}
+\bigskip
+\bigskip
+\begin{center}{
+\LARGE\color{marron}
+\textbf{Mondrian Forests}
+\textbf{ }\\
+\vspace{0.5cm}
+}
+
+\color{marron}
+\textbf{HMMA 308 : Apprentissage Statistique}
+\end{center}
+
+\vspace{0.5cm}
+
+\begin{center}
+\textbf{KANDOUCI Walid} \\
+\vspace{0.1cm}
+\url{https://github.com/WalidKandouci/HMMA308--Mondrian-Forests}\\
+\vspace{0.5cm}
+Université de Montpellier \\
+\end{center}
+
+\centering
+\includegraphics[width=0.13\textwidth]{Logo.pdf}
+\end{frame}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%             Headers               %%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% plan de la présentation
+\begin{frame}
+\frametitle{Sommaire}
+\tableofcontents
+\end{frame}
+
+
+\section{Introduction}
+\begin{frame}
+\frametitle{Introduction}
+\underline{\textbf{Rappel forêts aléatoires:}}
+\begin{itemize}
+    \item Algorithme bagging
+    \item Bon résultat sur de vrai données
+    \item simples à mettre en œuvre
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Introduction}
+\underline{\textbf{Forêts Mondrian:}}
+\begin{itemize}
+    \item Nouvelle classe des forêts aléatoires
+    \item Efficaces
+    \item Offre meilleure estimation d'incertitude que les forêts aléatoires
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm, height=1.5cm]{Images/Mondrian.jpg}
+\end{figure}
+\end{frame}
+
+
+\section{Arbres de Mondiran}
+\begin{frame}
+\frametitle{Arbres de Mondrian}
+\underline{\textbf{L'approche:}}
+\begin{itemize}
+    \item chaque noeud $j$ a exactement un noeud parent, sauf pour un noeud racine distingué $\epsilon$ qui n’a pas de parents
+    \item chaque noeud $j$ est le parent d’exactement zéro ou deux noeuds enfants : (le noeud de gauche "$left(j)$" et le noeud de droite "$right(j)$")
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Arbres de Mondrian}
+
+\begin{itemize}
+    \item $(T, \delta, \xi)$ un arbre de décision
+    \item  parent $(j):$ le parent du noeud $j$
+    \item $N(j): 1$ l'indice de nos données d'apprentissage au point $j(N(j)=\{n \in\{1, \ldots, N\}: x_{n} \in B_{j}\})$
+    \item  $\mathcal{D}_{N(j)}=\left\{\boldsymbol{X}_{N(j)}, Y_{N(j)}\right\}:$ les caractéristiques et les étiquettes des points de données d'apprentissage au noeud $j$
+    \item $\cdot \ell_{j d}^{x}$ et $u_{j d}^{x}:$ les bornes inférieurs et supérieurs de nos donnes d'apprentissage au noeud $j$ le long de la dimension $d$
+    \item $\cdot B_{j}^{x}=\left(\ell_{j 1}^{x}, u_{j 1}^{x}\right] \times \ldots \times\left(\ell_{j D}^{x}, u_{j D}^{x}\right] \subseteq B_{j}:$ le plus petit rectangle qui entoure les données d'apprentissage
+au noeud $j$
+    
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Arbres de Mondrian}
+\underline{\textbf{L'algorithme:}}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=10cm, height=5cm]{Images/ALGO1ET2.PNG}
+\end{figure}
+
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Arbres de Mondrian}
+Les arbres de Mondrian diffèrent des arbres de décision comme suit:
+
+\begin{itemize}
+    \item Les divisions sont échantillonnées indépendamment des $Y_{N(j)}$
+    \item Chaque noeud $j$ est associé avec un temps de division $\tau_{j}$
+    \item $\lambda$ contrôle le nombre totale des divisions
+    \item la division représenté par un noeud interne $j$ ne tient que dans $B_{j}^{x}$ et non pas $B_{j}$
+\end{itemize}
+\end{frame}
+
+\section{Application}
+\begin{frame}[fragile]
+\frametitle{Application}
+\underline{\textbf{Fonction "$random\_mondrian$"}}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}{.3\linewidth}
+    \centering
+    \includegraphics[width = \linewidth]{Images/Mondrianbudget2.pdf}
+  \end{subfigure}%
+  \hspace{1em}% Space between image A and B
+  \begin{subfigure}{.3\linewidth}
+    \centering
+    \includegraphics[width = \linewidth]{Images/Mondrianbudget10.pdf}
+  \end{subfigure}%
+  \hspace{2em}% Space between image B and C
+  \begin{subfigure}{.3\linewidth}
+    \centering
+    \includegraphics[width = \linewidth]{Images/Mondrianbudget50.pdf}
+  \end{subfigure}
+  \caption{Exemple générateur aléatoire Mondrian (budget=2,10,50)}
+\end{figure}
+\end{frame}
+
+\section{Conclusion}
+\begin{frame}
+\frametitle{Conclusion}
+\begin{itemize}
+    \item Forêts de Mondrian = Processus de Mondrian + Forêts aléatoires
+    \item Peut fonctionner en mode batch ou en mode en ligne
+    \item Meilleur estimation d'incertitude que les forêts aléatoires
+\end{itemize}
+\end{frame}
+
+\end{document}
+
